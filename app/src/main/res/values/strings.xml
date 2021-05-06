@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Fitness App</string>
+    <string name="signup_ptr">Not a member yet? Click Here</string>
+    <string name="signin_ptr">Already have an account? Click Here</string>
+    <string name="email_warning">Enter a valid Email ID</string>
+    <string name="password_warning">Password must contain at least 6 characters</string>
 </resources>
