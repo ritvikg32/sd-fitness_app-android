@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fitnessapp">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -10,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessApp">
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".AuthenticationActivity">
             <intent-filter>
@@ -19,9 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
