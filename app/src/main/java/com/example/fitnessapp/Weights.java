@@ -2,11 +2,13 @@ package com.example.fitnessapp;
 
 import android.app.Application;
 
-public class Weights extends Application {
+public class Weights{
     private String name;
     private String image;
     private String video;
     private static Weights instance;
+
+    public Weights() { }
 
     public Weights(String name, String image, String video) {
         this.name = name;
@@ -14,14 +16,13 @@ public class Weights extends Application {
         this.video = video;
     }
 
-    public static Weights getInstance(){
-    if(instance==null) instance=new Weights();
+//    public static Weights getInstance(){
+//    if(instance==null) instance=new Weights();
+//
+//    return instance;
+//    }
+//
 
-    return instance;
-    }
-
-    public Weights() {
-    }
 
     public String getName() {
         return name;
@@ -31,19 +32,19 @@ public class Weights extends Application {
         this.name = name;
     }
 
-    public String getimage() {
+    public String getImage() {
         return image;
     }
 
-    public void setimage(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public String getvideo() {
+    public String getVideo() {
         return video;
     }
 
-    public void setvideo(String video) {
+    public void setVideo(String video) {
         this.video = video;
     }
 }

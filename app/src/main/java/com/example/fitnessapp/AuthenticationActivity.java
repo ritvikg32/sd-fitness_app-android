@@ -43,7 +43,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Intent homeIntent = new Intent(this, HomeActivity.class);
-            startActivity(homeIntent);
+//            startActivity(homeIntent);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.fitnessapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,10 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,12 +37,18 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private TextView emailField;
     private TextView passwordField;
     private ProgressBar signupProgress;
+    private FirebaseUser mFirebaseUser;
+
+    private FirebaseFirestore db =FirebaseFirestore.getInstance();
+    CollectionReference cities = db.collection("users");
+    Intent form;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
+        form = new Intent(this, FormActivity.class);
 
         signinPtr = findViewById(R.id.txt_signin_ptr);
         signupBtn = findViewById(R.id.signup_btn);
@@ -106,8 +121,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Authentication", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            mFirebaseUser = mAuth.getCurrentUser();
                             signupProgress.setVisibility(View.INVISIBLE);
+                            startActivityForResult(form, 50);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Authentication", "createUserWithEmail:failure", task.getException());
@@ -117,6 +133,51 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 });
+    }
+
+    private void addUsertoFireStore(String uid, String email, Intent data){
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(data.getStringExtra("NAME_VAL"))
+                .build();
+
+        mFirebaseUser.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Name updated",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("name",data.getStringExtra("NAME_VAL"));
+        newUser.put("age",data.getStringExtra("AGE_VAL"));
+        Intent home = new Intent(this, HomeActivity.class);
+
+    db.collection("users").document(mFirebaseUser.getUid())
+                .set(newUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        home.putExtra("USER_NAME",data.getStringExtra("NAME_VAL"));
+                        startActivity(home);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("upload","Something went wrong "+e.toString());
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 50 || resultCode==50){
+            addUsertoFireStore(mFirebaseUser.getUid(), mFirebaseUser.getEmail(), data);
+        }
     }
 
     @Override

@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.signin_btn:
                 progressBar.setVisibility(View.VISIBLE);
                 signin(emailField.getText().toString(),pwdField.getText().toString());
-                intent= new Intent(this, MainActivity.class);
+                intent= new Intent(this, HomeActivity.class);
             startActivity(intent);
             break;
         }

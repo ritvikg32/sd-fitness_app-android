@@ -21,10 +21,10 @@ public class wktRvAdapter extends RecyclerView.Adapter<wktRvAdapter.ViewHolder> 
         this.list = list;
     }
 
-    @NonNull
+
     @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_wkt_rv,parent,false);
         ViewHolder viewHolder=new ViewHolder(view);
@@ -32,11 +32,11 @@ public class wktRvAdapter extends RecyclerView.Adapter<wktRvAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         Weights wts=list.get(position);
 
         holder.name.setText(wts.getName());
-        holder.dets.setText(wts.getimage());
+//        holder.dets.setText(wts.getimage());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class wktRvAdapter extends RecyclerView.Adapter<wktRvAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name,dets;
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        public ViewHolder(@NotNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.tv_wktname);
             dets=itemView.findViewById(R.id.tv_wktDets);
