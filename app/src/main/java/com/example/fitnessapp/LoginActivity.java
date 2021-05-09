@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d("Authentication", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             progressBar.setVisibility(View.INVISIBLE);
-                            Intent main  = new Intent(reference, MainActivity.class);
-                            startActivity(main);
 
                         } else {
                             // If sign in fails, display a message to the user.
